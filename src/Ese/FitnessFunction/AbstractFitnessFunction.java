@@ -6,8 +6,6 @@
 package Ese.FitnessFunction;
 
 import java.io.Serializable;
-import net.sf.javaml.core.Dataset;
-import weka.core.Instances;
 
 /**
  *
@@ -16,10 +14,6 @@ import weka.core.Instances;
 public interface AbstractFitnessFunction extends Serializable{
     
     public double getFitness(Object o);
-    
-    public double getFitness(Object o, Instances train, Instances test);
-    
-    public double getFitness(Object o, Dataset train, Dataset test);
     
     
 }

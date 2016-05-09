@@ -6,8 +6,6 @@ package Ese.FitnessFunction;
 
 import java.text.DecimalFormat;
 import Ese.FireFlyAlgorithm.FireFly;
-import net.sf.javaml.core.Dataset;
-import weka.core.Instances;
 
 /**
  *
@@ -32,15 +30,5 @@ public class FireFlyFitnessFunction implements AbstractFitnessFunction{
         double x = formatNumber(aFireFly.getValue(0));
         double y = formatNumber(aFireFly.getValue(1));
         return quadraticSolver(x,y);
-    }
-
-    @Override
-    public double getFitness(Object o, Instances train, Instances test) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getFitness(Object o, Dataset train, Dataset test) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

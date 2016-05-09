@@ -6,8 +6,6 @@
 package Ese.FitnessFunction;
 import Ese.ClonalSelectionAlgorithm.Antibody;
 import java.text.DecimalFormat;
-import net.sf.javaml.core.Dataset;
-import weka.core.Instances;
 
 /**
  *
@@ -32,16 +30,6 @@ public class AffinityFunction implements AbstractFitnessFunction{
       DecimalFormat myFormat = new DecimalFormat("##.##");
       String outVar = myFormat.format(num);
       return Double.parseDouble(outVar);
-    }
-
-    @Override
-    public double getFitness(Object o, Instances train, Instances test) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double getFitness(Object o, Dataset train, Dataset test) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
