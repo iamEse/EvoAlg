@@ -4,28 +4,35 @@
  * and open the template in the editor.
  */
 package Ese.FitnessFunction;
-import Ese.ClonalSelectionAlgorithm.Antibody;
+import Ese.BatAlgorithm.Bat;
+import Ese.Evaluate.EvaluateSolution;
 import java.text.DecimalFormat;
 import net.sf.javaml.core.Dataset;
 import weka.core.Instances;
+
 
 /**
  *
  * @author erigha eseoghene dan
  */
-public class AffinityFunction implements AbstractFitnessFunction{
+public class BinaryBatFitnessFunction implements AbstractFitnessFunction{
 
+    private Bat bat;
+    
     @Override
-    public double getFitness(Object o) {
-       Antibody aAntibody = (Antibody)o;
-        double x = formatNumber(aAntibody.getValue(0));
-        double y = formatNumber(aAntibody.getValue(1));
-        return quadraticSolver(x,y);
+    public double getFitness(Object o, Dataset etrain, Dataset etest) {
+        
+      Dataset dtrain = etrain.copy();
+      Dataset dtest = etest.copy();
+      
+      EvaluateSolution eval = new EvaluateSolution(o,dtrain,dtest); 
+      Bat myBat =  eval.getAccuracy();
+      bat = myBat;
+      return myBat.getFitness();  
     }
     
-    private double quadraticSolver(double x, double y){
-        double val1 = x*x;
-        return formatNumber(val1+y);
+    public Bat getBat(){
+        return bat;
     }
     
     private double formatNumber(double num){
@@ -35,12 +42,12 @@ public class AffinityFunction implements AbstractFitnessFunction{
     }
 
     @Override
-    public double getFitness(Object o, Instances train, Instances test) {
+    public double getFitness(Object o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double getFitness(Object o, Dataset train, Dataset test) {
+    public double getFitness(Object o, Instances train, Instances test) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
