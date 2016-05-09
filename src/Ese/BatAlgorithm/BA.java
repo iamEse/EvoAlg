@@ -8,6 +8,7 @@ import Ese.FitnessFunction.BatFitnessFunction;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Random;
+import net.sf.javaml.core.Dataset;
 
 /**
  *
@@ -21,8 +22,8 @@ public class BA{
     private final double a;  //Loudness
     private final double r; //pulse rate
     private final int dimension;  //dimension of solution
-    private final int fMax = 2;
-    private final int fMin = 0;
+    private final int fMax = 2;  //maximum frequency
+    private final int fMin = 0;  //minimum frequency
     private final double [] lb;
     private final double [] ub;
     private final double [] f;  //Frequencies for the bats
@@ -31,8 +32,10 @@ public class BA{
     
     private Bat bestBat;   //Best Bat/Solution
     private double bestFitness; //Best fitness for each generation
+    Dataset train;
+    Dataset test;
     
-    public BA(int n, int maxGen,double a, double r, int dimension){
+    public BA(int n, int maxGen,double a, double r, int dimension, Dataset train, Dataset test){
         this.n = n;
         this.maxGen = maxGen;
         this.a = a;
@@ -44,15 +47,26 @@ public class BA{
         v = new double [n][dimension];
         aBats = new Bat[n];
         rand = new Random();
+        this.train = train;
+        this.test = test;
         
-        executeBA();   //Execute the Bat algorithm
+       
     }
     
     //Initialize the lower and upper bounds
     private void init_bounds(){
          for(int i = 0; i < dimension; i++){
-		lb[i] = 1.0;
-		ub[i] = 3.0;
+             
+             if(i == 0){
+                lb[i] = 1.0;
+		ub[i] = 3500.0; 
+             }
+             
+             if(i == 1){
+                lb[i] = 0.001;
+		ub[i] = 50.0;  
+             }
+		
 	} 
         
     }
@@ -88,7 +102,8 @@ public class BA{
                 aBats[i].setValue(j,value);   //setValues for each bat agent   
             }
             
-             double fitness = new BatFitnessFunction().getFitness(aBats[i]);  
+             //double fitness = new BatFitnessFunction().getFitness(aBats[i]);  
+             double fitness = new BatFitnessFunction().getFitness(aBats[i], train, test);
              aBats[i].setFitness(fitness);
         }
         
@@ -133,7 +148,7 @@ public class BA{
        System.out.println();
     }
     
-    private void executeBA(){
+    public Bat executeBA(){
         
         //initialize bounds
         init_bounds();
@@ -181,8 +196,11 @@ public class BA{
                 //Apply simplebounds/limit
                 s = simpleBounds(s,i);
                 
+                Bat bat = new Bat(s[i]);
+                
                 //Evaluate new solutions
-                double fNew = new BatFitnessFunction().getFitness(s[i]);
+                //double fNew = new BatFitnessFunction().getFitness(bat);
+                double fNew = new BatFitnessFunction().getFitness(bat, train, test);
                 
                 //Update if the solution improves, or not too loud
                 if((fNew >= aBats[i].getFitness()) && (rand.nextDouble() < a)){
@@ -211,6 +229,6 @@ public class BA{
             displayResult(t,bestBat); 
         }//end while
     
-        
+       return bestBat; 
     }
 }

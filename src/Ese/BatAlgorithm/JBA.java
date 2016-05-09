@@ -30,12 +30,12 @@ public class JBA {
     
     private void init_ba(){
        int n = 10;
-       int maxGen = 20;
+       int maxGen = 10;
        double loudness = 0.5;
        double pulse = 0.5;
        int dimension = 2;
        
-       ba = new BA(n,maxGen,loudness,pulse,dimension);
+       //ba = new BA(n,maxGen,loudness,pulse,dimension);
     }
     
     public static void main(String[] args) {
